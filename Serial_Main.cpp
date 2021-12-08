@@ -1,14 +1,30 @@
-// Workshop 4 - Prefix Scan - Serial
-// scan.cpp
-// 2020.10.12
-// Chris Szalwinski
-
+// Iurii Kondrakov
+// Serial_Main.cpp
+// 2021.12.06
 #include <iostream>
 #include <chrono>
-#include "scan.h"
+
+//Exclusive Scan
+template <typename T, typename C>
+int excl_scan(
+	const T* in,                // source data
+	T* out,                     // output data
+	int size,                   // size of data sets
+	C combine,                  // combine operation
+	T initial                   // initial value
+) {
+
+	if (size > 0) {
+		for (int i = 0; i < size - 1; i++) {
+			out[i] = initial;
+			initial = combine(initial, in[i]);
+		}
+		out[size - 1] = initial;
+	}
+	return 1; // 1 thread
+}
 
 // report system time
-//
 void reportTime(const char* msg, std::chrono::steady_clock::duration span) {
 	auto ms = std::chrono::duration_cast<std::chrono::microseconds>(span);
 	std::cout << msg << " - took - " <<
@@ -49,42 +65,15 @@ int main(int argc, char** argv) {
 
 	std::chrono::steady_clock::time_point ts, te;
 
-
-	// Inclusive Prefix Scan - Remove Startup Cost
-	scan(in, out, n, add, incl_scan<int, decltype(add)>, (int)0);
-
-	// Inclusive Prefix Scan
+	// Exclusive Prefix Scan
 	ts = std::chrono::steady_clock::now();
-	nt = scan(in, out, n, add, incl_scan<int, decltype(add)>, (int)0);
+	nt = excl_scan<int, decltype(add)>(in, out, n, add, (int)(0));
 	te = std::chrono::steady_clock::now();
 
 	std::cout << nt << " thread" << (nt > 1 ? "s" : "") << std::endl;
 	for (int i = 0; i < N; i++)
 		std::cout << out[i] << ' ';
 	std::cout << out[n - 1] << std::endl;
-	reportTime("Inclusive Scan", te - ts);
-
-	// Exclusive Prefix Scan
-	ts = std::chrono::steady_clock::now();
-	nt = scan(in, out, n, add, excl_scan<int, decltype(add)>, (int)0);
-	te = std::chrono::steady_clock::now();
-
-	std::cout << nt << " thread" << (nt > 1 ? "s" : "") << std::endl;
-	for (int i = 0; i < N; i++)
-		std::cout << out[i] << ' ';
-	std::cout << out[n - 1] << std::endl;
-	reportTime("Exclusive Scan", te - ts);
-
-	// Exclusive Prefix Scan
-	ts = std::chrono::steady_clock::now();
-	nt = scan(in, out, n, add, incl_scan<int, decltype(add)>, (int)0);
-	te = std::chrono::steady_clock::now();
-
-	std::cout << nt << " thread" << (nt > 1 ? "s" : "") << std::endl;
-	std::cout << 0 << ' ';
-	for (int i = 0; i < N - 1; i++)
-		std::cout << out[i] << ' ';
-	std::cout << out[n - 2] << std::endl;
 	reportTime("Exclusive Scan", te - ts);
 
 
