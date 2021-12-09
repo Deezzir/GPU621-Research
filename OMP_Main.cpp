@@ -1,6 +1,7 @@
-// Iurii Kondrakov
-// OMP_Main.cpp
-// 2021.12.07
+// Workshop 7 - Prefix Scan Comparison
+ // w7.omp.cpp
+ // 2018.11.04
+ // Chris Szalwinski
 
 #include <iostream>
 #include <chrono>
@@ -126,7 +127,7 @@ int main(int argc, char** argv) {
 	scan<long long, decltype(add)>(in, out, n, add, (int)0);
 	te = std::chrono::steady_clock::now();
 
-	std::cout << nt << " thread" << (nt > 1 ? "s" : "") << std::endl;
+	std::cout << MAX_TILES << " thread" << (nt > 1 ? "s" : "") << std::endl;
 	for (int i = 0; i < N; i++)
 		std::cout << out[i] << ' ';
 	std::cout << out[n - 1] << std::endl;
