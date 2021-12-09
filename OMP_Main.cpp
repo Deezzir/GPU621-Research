@@ -98,11 +98,11 @@ int main(int argc, char** argv) {
 	std::cout << "OMP Prefix Scan" << std::endl;
 
 	// initial values for testing
-	const long long N = 9;
-	const long long in_[N]{ 3, 1, 7, 0, 1, 4, 5, 9, 2 };
+	const int N = 9;
+	const int in_[N]{ 3, 1, 7, 0, 1, 4, 5, 9, 2 };
 
 	// command line arguments - none for testing, 1 for large arrays
-	long long n, nt{ 1 };
+	int n, nt{ 1 };
 	if (argc == 1) {
 		n = N;
 	}
@@ -110,8 +110,8 @@ int main(int argc, char** argv) {
 		n = 1 << std::atoi(argv[1]);
 		if (n < N) n = N;
 	}
-	long long* in = new long long[n];
-	long long* out = new long long[n];
+	int* in = new int[n];
+	int* out = new int[n];
 
 	// initialize
 	for (int i = 0; i < N; i++)
@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
 
 	// Exclusive Prefix Scan
 	ts = std::chrono::steady_clock::now();
-	scan<long long, decltype(add)>(in, out, n, add, (int)0);
+	scan<int, decltype(add)>(in, out, n, add, (int)0);
 	te = std::chrono::steady_clock::now();
 
 	std::cout << MAX_TILES << " thread" << (nt > 1 ? "s" : "") << std::endl;
