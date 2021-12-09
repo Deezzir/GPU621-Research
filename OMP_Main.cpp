@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 		std::cerr << "Usage: " << argv[0] << "  power_of_2\n";
 		return 1;
 	}
-	std::cout << "Serial Prefix Scan" << std::endl;
+	std::cout << "OMP Prefix Scan" << std::endl;
 
 	// initial values for testing
 	const long long N = 9;
