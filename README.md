@@ -1,2 +1,4 @@
-# GPU621-Workshop-7
-The implemented code for the Workshop 7 GPU621 course in Seneca Colege by Iurii Kondrakov
+# GPU621-Research
+The implemented code for the Final Project of GPU621 course in Seneca Colege by Iurii Kondrakov
+
+link for the research
